@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load static %}
+    <meta charset="UTF-8">
+    <title>Đại Học Bách Khoa Hà Nội</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'webcam/style.css ' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'webcam/menu.css ' %}" >
+
+</head>
+<style>
+body{
+  background-image: url({% static 'images/Bg-2.png ' %});
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+</style>
+
+<body>
+	<div class="wrap", style="background:#FFFFFF;">
+		<div class="header_top">
+			<div class="logo">
+				<a href="/polls">
+					<img src="{% static 'images/ase_lab.jpg '%}" height="120px" width="120px" alt="" />
+
+				</a>
+
+			</div>
+			<div>
+					<div style="position:relative;right:150px;color:#FF0000; font-size:40px;font-weight: bold; text-align:center;">
+						<b>Aero-Space Electronics Laboratory</b>
+						<br>
+						<b>
+							Victim Detection Application
+						</b>
+					</div>
+
+			</div>
+			<div class="clear"></div>
+
+		</div>
+	</div>
+<center style=" position:relative;top:30px;left:420px;max-width: 750px;max-heiht: 150px">
+	<img style="position:relative;right:240px;top:2px;border: 3px solid #ffffff;" src="{% url 'video-feed' %}" height="530px" width="750px" alt="">
+	<div style =" position:relative; left : 140px;max-width: 750px; bottom:22px">
+		<div style =" position:relative;left:360px;bottom : 610px;max-width: 750px;">
+			<div style =" position:relative; right:30px; top: 127px; ">
+				<img style =" border: 3px solid #ffffff;" src="{% static 'images/img_1.png '%}" height="480px" width="500px" alt="" />
+			</div>
+			<div style="position:relative; left : 40px">
+				<b>
+
+				</b>
+				<div style="position:relative; right: 45px ;">
+				<b1 >
+					<button style="position:relative; bottom : 126px ;color: red;font-size:42px; " name="button" value="OK" type="button" onclick="fnc()">  &#8593  </button>
+					<script>
+					</script>
+				</b1>
+				<b2>
+					<button style="position:relative;top:10px; right : 41.5px; color: red;font-size:42px; " name="button" value="OK" type="button" >  &#8595  </button>
+				</b2>
+				</div>
+				<div style="position:relative;bottom : 106.5px; left : 42.8px;">
+					<b3>
+						<button style="position:relative; right : 152px; color: red;font-size:32px; " name="button" value="OK" type="button" >  &#8592 </button>
+					</b3>
+					<b4>
+						<button style="position:relative;right : 69.8px;color: red;font-size:32px; " name="button" value="OK" type="button" >  &#8594 </button>
+					</b4>
+				</div>
+
+
+			</div>
+
+		</div>
+		<div style="position:relative;bottom : 900px; left : 332px; ">
+			<b5>
+				<p style="text-align:center; font-size: 25px;border-style:solid; border: 5px outset #e40c0c;max-width: 200px;background:#FFFF;">Change Position</p>
+			</b5>
+		</div>
+		<div style="position:relative;bottom : 1070px; left : 332px">
+			<b5>
+				<b style="text-align:center; font-size: 25px;border-style:solid; border: 5px outset #e40c0c;max-width: 200px;background:#FFFF;">Status</b>
+				<br>
+				<br>
+
+				<script>
+
+					var openFile = function(event) {
+					  var input = event.target;
+					  var reader = new FileReader();
+					  reader.onload = function() {
+						var text = reader.result;
+						var node = document.getElementById('output');
+						node.innerText = text;
+						console.log(reader.result.substring(0, 200));
+					  };
+					  reader.readAsText(input.files[0]);
+
+					};
+				</script>
+
+				<input type='file' accept='text/plain' onchange="openFile(event)" ><br>
+					<div style="font-size: 35px; height: 45px" id='output'></div>
+			</b5>
+		</div>
+	</div>
+
+</center>
+
+</body>
+</html>

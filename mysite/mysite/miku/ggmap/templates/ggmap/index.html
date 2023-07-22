@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load static %}
+    <meta charset="UTF-8">
+    <title>Đại Học Bách Khoa Hà Nội</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'ggmap/style.css ' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'ggmap/menu.css ' %}" >
+
+	<script src='https://cdn.firebase.com/v0/firebase.js'></script>
+	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+</head>
+<script type="text/javascript">
+function createMap(lat,lng){
+			  const map = new google.maps.Map(document.getElementById('map'), {
+				center: {lat: 21.00611, lng: 105.84185},
+				zoom: 16,
+			  });
+			  new google.maps.Marker({
+			  	position: {lat: lat , lng: lng},
+				map,
+			  });
+			  const infowindow = new google.maps.InfoWindow({
+				content: "<p>Marker Location:" + marker.getPosition() + "</p>",
+			  });
+			  google.maps.event.addListener(marker, "click", () => {
+				infowindow.open(map, marker);
+			  });
+			}
+
+
+</script>
+<script type="module">
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyByqx2Y-rFnkXlUcIEx5uJsc7b89C_dfFY",
+    authDomain: "espgps-b468b.firebaseapp.com",
+    databaseURL: "https://espgps-b468b-default-rtdb.firebaseio.com",
+    projectId: "espgps-b468b",
+    storageBucket: "espgps-b468b.appspot.com",
+    messagingSenderId: "380586142039",
+    appId: "1:380586142039:web:0b60c159f86c8a17d1f612",
+    measurementId: "G-R6LYLY9H1E"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  var lat = document.getElementById('lat');
+  var dbRef = firebase.database().ref('lat');
+  dbRef.on('value', snap => lat.innerText = snap.val());
+
+  var lng = document.getElementById('lng');
+  var dbRef2 = firebase.database().ref('lng');
+  dbRef2.on('value', snap => lng.innerText = snap.val());
+  dbRef.on('value', snap => {
+	dbRef2.on('value', snap2 => {
+		let x = snap.val()
+		let y = snap2.val()
+		createMap(x, y);
+	})
+})
+
+
+
+
+
+</script>
+<style>
+body{
+  background-image: url({% static 'images/background.jpeg ' %});
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+ <style>
+			#map {
+			  width: 1000px;
+			  height: 700px;
+			  border: thin solid black;
+			}
+</style>
+<body >
+
+	<div class="wrap">
+		<div class="header_top">
+			<div class="logo">
+				<a href="/ggmap"><img src="{% static 'images/hust_logo.png '%}" height="120px" width="80px" alt="" /></a>
+				<div class="web-name-title">Trường Đại học Bách Khoa Hà Nội</div>
+				<div class="school-name-title">ASE Lab</div>
+			</div>
+			<div class="clear"></div>
+			<div class="menu">
+				<ul id="dc_mega-menu-orange" class="dc_mm-orange">
+	  				<li><a href="/ggmap">Home</a></li>
+	  				<li><a href="/ggmap">Sinh viên</a> </li>
+	  				<li><a href="/ggmap">Giáo viên</a></li>
+	  				<li><a href="/ggmap">Công tác</a></li>
+	  				<li><a href="/ggmap">Liên hệ</a> </li>
+	  				<div class="clear"></div>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<center>
+		<div id="map"></div>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvEqGhYK4_XB6qfKKONeeDRKj5uVdfcXU"
+		></script>
+	</center>
+	<center style="font-size:25px">
+        <table border="1" cellspacing="0" cellpadding="2">
+			<tr >
+                <td colspan="2"><center >Tọa độ </center></td>
+            </tr>
+            <tr>
+                <td>LAT :  </td>
+				<td> <span id="lat"></span> </td>
+
+            </tr>
+			<tr>
+                <td>LNG :  </td>
+				<td><span id="lng"></span></td>
+            </tr>
+		</table>
+	</center>
+
+</body>
+</html>
