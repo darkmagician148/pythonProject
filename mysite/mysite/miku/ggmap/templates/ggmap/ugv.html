@@ -13,42 +13,36 @@
 	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
 </head>
 <script type="module">
-
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-    apiKey: "AIzaSyByqx2Y-rFnkXlUcIEx5uJsc7b89C_dfFY",
-    authDomain: "espgps-b468b.firebaseapp.com",
-    databaseURL: "https://espgps-b468b-default-rtdb.firebaseio.com",
-    projectId: "espgps-b468b",
-    storageBucket: "espgps-b468b.appspot.com",
-    messagingSenderId: "380586142039",
-    appId: "1:380586142039:web:0b60c159f86c8a17d1f612",
-    measurementId: "G-R6LYLY9H1E"
+  	apiKey: "AIzaSyDnyzhNNeEORTPNdmc8sfFxl13hZx_t73k",
+  	authDomain: "lidar-ea564.firebaseapp.com",
+  	databaseURL: "https://lidar-ea564-default-rtdb.firebaseio.com",
+  	projectId: "lidar-ea564",
+  	storageBucket: "lidar-ea564.appspot.com",
+  	messagingSenderId: "692475158447",
+  	appId: "1:692475158447:web:d0a3fdf6f785447b50995a",
+  	measurementId: "G-35VBR13BXS"
   };
 
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
 
-  var lat = document.getElementById('lat');
-  var dbRef = firebase.database().ref('lat');
-  dbRef.on('value', snap => lat.innerText = snap.val());
-
-  var lng = document.getElementById('lng');
-  var dbRef2 = firebase.database().ref('lng');
-
-  dbRef2.on('value', snap => lng.innerText = snap.val());
-  dbRef.on('value', snap => {
-
-	dbRef2.on('value', snap2 => {
-		let x = snap.val()
-		let y = snap2.val()
-		createMap(x, y);
-	})
-})
+  var Command = firebase.database().ref('Command');
+  var ForwardTime = firebase.database().ref('ForwardTime')
+  function setData():{
+	const defaut = {
+		Command :"LINE",
+		ForwardTime:"10000"
+	}
+	database.ref("lidar").set(defaut)
+		.then(() =>{
+			console.log("data has been set!");
+		})
+		.catch((error) => {
+			console.error("Error setting data :", error)
+		})
+  }
+  setData();
 
 </script>
 <style>
@@ -74,15 +68,37 @@ body{
 			<div class="clear"></div>
 			<div class="menu">
 				<ul id="dc_mega-menu-orange" class="dc_mm-orange">
-	  				<li><a href="/ggmap/ugv">Home</a></li>
-	  				<li><a href="/ggmap/ugv">Sinh viên</a> </li>
-	  				<li><a href="/ggmap/ugv">Giáo viên</a></li>
-	  				<li><a href="/ggmap/ugv">Công tác</a></li>
+	  				<li><a href="">Home</a></li>
+	  				<li><a href="">Sinh viên</a> </li>
+	  				<li><a href="">Giáo viên</a></li>
+	  				<li><a href="">Công tác</a></li>
 	  				<li><a href="https://www.facebook.com/profile.php?id=100021906317686">Liên hệ</a> </li>
 	  				<div class="clear"></div>
 				</ul>
 			</div>
 		</div>
 	</div>
+	<center >
+		<div style="position:relative; top : 300px">
+			<div style="position:relative; right: 45px ;">
+			<b1 >
+				<button style="position:relative; bottom : 126px ;color: red;font-size:42px; " name="button" value="OK" type="button" onclick="fnc()">  &#8593  </button>
+				<script>
+				</script>
+			</b1>
+			<b2>
+				<button style="position:relative;top:10px; right : 41.5px; color: red;font-size:42px; " name="button" value="OK" type="button" onclick="back" >  &#8595  </button>
+			</b2>
+			</div>
+			<div style="position:relative;bottom : 106.5px; left : 42.8px;">
+				<b3>
+					<button style="position:relative; right : 152px; color: red;font-size:32px; " name="button" value="OK" type="button" onclick="left">  &#8592 </button>
+				</b3>
+				<b4>
+					<button style="position:relative;right : 69.8px;color: red;font-size:32px; " name="button" value="OK" type="button" onclick="rigth">  &#8594 </button>
+				</b4>
+			</div>
+		</div>
+	</center>
 </body>
 </html>

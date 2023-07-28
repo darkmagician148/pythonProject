@@ -8,3 +8,5 @@ def index(request):
     return render(request, "ggmap/index.html")
 def ugv(request):
     return render(request, "ggmap/ugv.html")
+def ugv_1(request):
+    return render(request, "ggmap/UGV_1.html")

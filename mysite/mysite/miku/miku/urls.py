@@ -21,6 +21,6 @@ urlpatterns = [
     path('polls/', include('polls.urls')),
     path('', include('ggmap.urls')),
     path('admin/', admin.site.urls),
-    path('webcom', include('webcam.urls')),
+    path('webcom/', include('webcam.urls')),
    # path('ggmap/', include('ggmap.urls')),
 ]
