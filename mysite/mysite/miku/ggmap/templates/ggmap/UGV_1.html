@@ -4,44 +4,85 @@
 	{% load static %}
     <meta charset="UTF-8">
     <title>Đại Học Bách Khoa Hà Nội</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'webcam/style.css ' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'webcam/menu.css ' %}" >
 	<script src='https://cdn.firebase.com/v0/firebase.js'></script>
 	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-analytics.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'webcam/style.css ' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'webcam/menu.css ' %}" >
+	<script src="{% static 'ggmap/script.js' %}"></script>
 
 </head>
 <script type="text/javascript">
-function send(cmd){
-				console.log(cmd)
-  				console.log("hello")
+function createMap(lat,lng){
+			  const map = new google.maps.Map(document.getElementById('map'), {
+				center: {lat: 21.00611, lng: 105.84185},
+				zoom: 16,
+			  });
+			  new google.maps.Marker({
+			  	position: {lat: lat , lng: lng},
+				map,
+			  });
+			  const infowindow = new google.maps.InfoWindow({
+				content: "<p>Marker Location:" + marker.getPosition() + "</p>",
+			  });
+			  google.maps.event.addListener(marker, "click", () => {
+				infowindow.open(map, marker);
+			  });
 			}
+
+
 </script>
 <script type="module">
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-  	apiKey: "AIzaSyDnyzhNNeEORTPNdmc8sfFxl13hZx_t73k",
-  	authDomain: "lidar-ea564.firebaseapp.com",
-  	databaseURL: "https://lidar-ea564-default-rtdb.firebaseio.com",
-  	projectId: "lidar-ea564",
-  	storageBucket: "lidar-ea564.appspot.com",
-  	messagingSenderId: "692475158447",
-  	appId: "1:692475158447:web:d0a3fdf6f785447b50995a",
-  	measurementId: "G-35VBR13BXS"
+    apiKey: "AIzaSyByqx2Y-rFnkXlUcIEx5uJsc7b89C_dfFY",
+    authDomain: "espgps-b468b.firebaseapp.com",
+    databaseURL: "https://espgps-b468b-default-rtdb.firebaseio.com",
+    projectId: "espgps-b468b",
+    storageBucket: "espgps-b468b.appspot.com",
+    messagingSenderId: "380586142039",
+    appId: "1:380586142039:web:0b60c159f86c8a17d1f612",
+    measurementId: "G-R6LYLY9H1E"
   };
 
+  // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
+  var lat = document.getElementById('lat');
+  var dbRef = firebase.database().ref('lat');
+  dbRef.on('value', snap => lat.innerText = snap.val());
 
-  var Command = firebase.database().ref('Command');
-  var ForwardTime = firebase.database().ref('ForwardTime')
-
-  var cmd = document.getElementById('Command');
-  var dbcmd = firebase.database().ref('Command');
-  dbcmd.on('cmd', snap => cmd.innerText = snap.val());
-  send(cmd)
+  var lng = document.getElementById('lng');
+  var dbRef2 = firebase.database().ref('lng');
+  dbRef2.on('value', snap => lng.innerText = snap.val());
+  dbRef.on('value', snap => {
+	dbRef2.on('value', snap2 => {
+		let x = snap.val()
+		let y = snap2.val()
+		createMap(x, y);
+	})
+})
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+ <style>
+			#map {
+			  position:relative;
+			  right:240px;
+			  top:2px;
+			  border: 3px;
+			  height:530px;
+			  width :750px;
+			}
+</style>
 <style>
 body{
   background-image: url({% static 'images/Bg-2.png ' %});
@@ -73,7 +114,9 @@ body{
 		</div>
 	</div>
 <center style=" position:relative;top:30px;left:420px;max-width: 750px;max-heiht: 150px">
-	<img style="position:relative;right:240px;top:2px;border: 3px solid #ffffff;" src="{% url 'video-feed' %}" height="530px" width="750px" alt="">
+	<div id="map"></div>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvEqGhYK4_XB6qfKKONeeDRKj5uVdfcXU"></script>
+	<!-- <img style="position:relative;right:240px;top:2px;border: 3px solid #ffffff;" src="{% url 'video-feed' %}" height="530px" width="750px" alt=""> -->
 	<div style =" position:relative; left : 140px;max-width: 750px; bottom:22px">
 		<div style =" position:relative;left:360px;bottom : 610px;max-width: 750px;">
 			<div style =" position:relative; right:30px; top: 127px; ">
@@ -85,20 +128,43 @@ body{
 				</b>
 				<div style="position:relative; right: 45px ;">
 				<b1 >
-					<button style="position:relative; bottom : 126px ;color: red;font-size:42px; " name="button" value="OK" type="button" onclick="fnc()">  &#8593  </button>
-					<script>
+					<script type="text/javascript">
+					function line(){
+						var cmd = "LINE"
+						setData(cmd);
+					  }
 					</script>
+					<button style="position:relative; bottom : 126px ;color: red;font-size:42px; " name="button" value="OK" type="button" onclick="line()">  &#8593  </button>
 				</b1>
 				<b2>
-					<button style="position:relative;top:10px; right : 41.5px; color: red;font-size:42px; " name="button" value="OK" type="button" >  &#8595  </button>
+					<script type="text/javascript">
+					function back(){
+						var cmd = "BACK"
+						setData(cmd);
+					  }
+					</script>
+
+					<button style="position:relative;top:10px; right : 41.5px; color: red;font-size:42px; " name="button" value="OK" type="button"  onclick="back()">  &#8595  </button>
 				</b2>
 				</div>
 				<div style="position:relative;bottom : 106.5px; left : 42.8px;">
 					<b3>
-						<button style="position:relative; right : 152px; color: red;font-size:32px; " name="button" value="OK" type="button" >  &#8592 </button>
+						<script type="text/javascript">
+						function left(){
+							var cmd = "LEFT"
+							setData(cmd);
+						  }
+						</script>
+						<button style="position:relative; right : 152px; color: red;font-size:32px; " name="button" value="OK" type="button" onclick="left()" >  &#8592 </button>
 					</b3>
 					<b4>
-						<button style="position:relative;right : 69.8px;color: red;font-size:32px; " name="button" value="OK" type="button" >  &#8594 </button>
+						<script type="text/javascript">
+						function right(){
+							var cmd = "RIGHT"
+							setData(cmd);
+						  }
+						</script>
+						<button style="position:relative;right : 69.8px;color: red;font-size:32px; " name="button" value="OK" type="button" onclick="right()">  &#8594 </button>
 					</b4>
 				</div>
 
